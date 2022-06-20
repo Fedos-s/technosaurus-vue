@@ -1,8 +1,5 @@
-<!-- eslint-disable linebreak-style -->
-<template>
-<!-- eslint-disable vuejs-accessibility/label-has-for -->
-<!-- eslint-disable max-len -->
 <!-- eslint-disable -->
+<template>
   <li class="catalog__item">
     <a class="catalog__pic" href="#">
       <img :src="product.image" :alt="product.title">
@@ -19,7 +16,7 @@
     </span>
 
     <ul class="colors colors--black">
-      <li class="colors__item" v-for="elColor in product.colors" :key="color">
+      <li class="colors__item" v-for="elColor in product.colors" :key="elColor">
         <label class="colors__label">
           <input class="colors__radio sr-only" type="radio" :value="elColor">
           <span class="colors__value" v-bind:style="{'background-color': elColor}">
@@ -29,7 +26,7 @@
      </ul>
   </li>
 </template>
-<!-- eslint-disable linebreak-style -->
+
 <script>
 import colors from '../data/colors';
 
