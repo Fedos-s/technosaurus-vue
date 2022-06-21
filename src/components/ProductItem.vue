@@ -1,11 +1,8 @@
-<!-- eslint-disable linebreak-style -->
-<template>
-<!-- eslint-disable vuejs-accessibility/label-has-for -->
-<!-- eslint-disable max-len -->
 <!-- eslint-disable -->
+<template>
   <li class="catalog__item">
     <a class="catalog__pic" href="#">
-      <img :src="product.image" :alt="product.title">
+      <img :src="product.image" :alt="product.title" @click.prevent="gotoPage('product', {id: product.id})">
     </a>
 
     <h3 class="catalog__title">
@@ -15,11 +12,11 @@
     </h3>
 
     <span class="catalog__price">
-      {{ product.price }} ₽
+      {{ product.price | numberFormat}} ₽
     </span>
 
     <ul class="colors colors--black">
-      <li class="colors__item" v-for="elColor in product.colors" :key="color">
+      <li class="colors__item" v-for="elColor in product.colors" :key="elColor">
         <label class="colors__label">
           <input class="colors__radio sr-only" type="radio" :value="elColor">
           <span class="colors__value" v-bind:style="{'background-color': elColor}">
@@ -31,7 +28,8 @@
 </template>
 <!-- eslint-disable linebreak-style -->
 <script>
-import colors from '../data/colors';
+import gotoPage from '@/helpers/gotoPage';
+import numberFormat from '@/helpers/numberFormat';
 
 export default {
   data() {
@@ -39,11 +37,12 @@ export default {
       color: this.product.colors[0],
     };
   },
+  filters: {
+    numberFormat,
+  },
   props: ['product'],
-  computed: {
-    colors() {
-      return { colors };
-    },
+  methods: {
+    gotoPage,
   },
 };
 </script>
