@@ -1,6 +1,3 @@
-<!-- eslint-disable max-len -->
-<!-- eslint-disable vuejs-accessibility/label-has-for -->
-
 <template>
     <main class="content container">
     <div class="content__top content__top--catalog">
