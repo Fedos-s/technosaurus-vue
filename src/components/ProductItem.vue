@@ -26,7 +26,7 @@
      </ul>
   </li>
 </template>
-<!-- eslint-disable linebreak-style -->
+
 <script>
 import gotoPage from '@/helpers/gotoPage';
 import numberFormat from '@/helpers/numberFormat';
