@@ -3,20 +3,20 @@
     <button
       type="button"
       aria-label="Убрать один товар"
-      @click.prevent="decreaseAmount()"
-      :disabled = "productAmount === 1"
+      @click.prevent="computedAmount--"
+      :disabled = "amount === 1"
     >
       <svg width="10" height="10" fill="currentColor">
         <use xlink:href="#icon-minus"></use>
       </svg>
     </button>
 
-    <input type="text" v-model.number="amount" name="count" />
+    <input type="text" v-model.number.lazy="computedAmount" name="count" />
 
     <button
       type="button"
       aria-label="Добавить один товар"
-      @click.prevent="increaseAmount()"
+      @click.prevent="computedAmount++"
     >
       <svg width="10" height="10" fill="currentColor">
         <use xlink:href="#icon-plus"></use>
@@ -27,26 +27,20 @@
 
 <script>
 export default {
-  data() {
-    return {
-      productAmount: 1,
-    };
-  },
-  watch: {
-    productAmount() {
-      this.productAmount = amount;
-    },
-  },
   props: ['amount'],
-  methods: {
-    increaseAmount() {
-      this.productAmount++;
-      this.$emit('update:amount', this.productAmount)
-    },
-    decreaseAmount() {
-      this.productAmount--
-      this.$emit('update:amount', this.productAmount)
-    },
+  computed: {
+    computedAmount: {
+      get() {
+        return this.amount
+      },
+      set(value) {
+        let pos = value
+        if (pos < 0) {
+          pos = 1
+        }
+        this.$emit('update:amount', pos)
+      }
+    }
   }
 }
 </script>
