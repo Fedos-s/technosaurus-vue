@@ -1,6 +1,7 @@
 <template>
 <div>
   <PageLoader v-if="loading"/>
+  <main v-else-if="failed" class="content container">Заказ не найден</main>
   <main v-else class="content container">
     <div class="content__top">
       <ul class="breadcrumbs">
@@ -56,7 +57,7 @@
                 Телефон
               </span>
               <span class="dictionary__value">
-               +7 {{ acceptNumber(products.phone) }}
+               +7 {{ products.phone | acceptNumber}}
               </span>
             </li>
             <li class="dictionary__item">
@@ -105,7 +106,13 @@ import PageLoader from '@/components/PageLoader.vue'
 
 export default {
   components: { PageLoader },
-  filters: {numberFormat},
+  filters: {
+    numberFormat,
+    acceptNumber(value) {
+    	var x = value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+      return value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    }
+    },
   created() {
     if(this.$store.state.orderInfo && this.$store.state.orderInfo.id === this.$route.params.id) {
       return;
@@ -118,13 +125,10 @@ export default {
     },
     loading() {
       return this.$store.state.orderInfoLoading
+    },
+    failed() {
+      return this.$store.state.orderInfoLoadingFailed
     }
   },
-  methods: {
-  	acceptNumber(value) {
-    	var x = value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-      return value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-    }
-  }
 }
 </script>

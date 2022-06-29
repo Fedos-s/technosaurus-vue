@@ -17,6 +17,7 @@ export default new Vuex.Store({
     orderInfo: null,
 
     orderInfoLoading: false,
+    orderInfoLoadingFailed: false,
   },
   mutations: {
     updateOrderInfo(state, orderInfo) {
@@ -91,6 +92,7 @@ export default new Vuex.Store({
   actions: {
     loadOrderInfo(context, orderId) {
       context.state.orderInfoLoading = true;
+      context.state.orderInfoLoadingFailed = false;
       return axios.get(API_BASE_URL + '/api/orders/'+ orderId, {
         params: {
           userAccessKey: context.state.userAccessKey
@@ -98,13 +100,17 @@ export default new Vuex.Store({
       })
       .then(response => {
         context.commit('updateOrderInfo', response.data);
+      })
+      .catch(() => {
+        context.state.orderInfoLoadingFailed = true;
+      })
+      .then(() => {
         context.state.orderInfoLoading = false;
       })
     },
     loadCart(context) {
       context.state.cartProductsLoading = true;
       context.state.cartProductsLoadingFailed = false;
-      console.log(context.state.userAccessKey)
       return axios.get(API_BASE_URL + '/api/baskets', {
         params: {
           userAccessKey: context.state.userAccessKey

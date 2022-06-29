@@ -136,7 +136,6 @@ export default {
     this.cartIsLoading = true;
     const userAccesKey = localStorage.getItem('userAccessKey');
     if (userAccesKey) {
-      console.log(userAccesKey)
       this.updateUserAccessKey(userAccesKey)
     }
     this.loadCart()
