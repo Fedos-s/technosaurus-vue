@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- <div v-if="productLoadingFailed">Ошибка загрузки</div>
-    <PageLoader v-else-if="productsLoading" /> -->
-    <main  class="content container">
+    <div v-if="productLoadingFailed">Ошибка загрузки</div>
+    <PageLoader v-else-if="productsLoading" />
+    <main v-else class="content container">
       <div class="content__top">
         <ul class="breadcrumbs">
           <li class="breadcrumbs__item">
@@ -41,9 +41,9 @@
               Итого: <span>{{ totalPrice | numberFormat }} ₽</span>
             </p>
 
-            <button class="cart__button button button--primery" type="submit">
+            <router-link tag="button" :to="{name: 'order'}" class="cart__button button button--primery" type="submit" :disabled="products.length === 0">
               Оформить заказ
-            </button>
+            </router-link>
           </div>
         </form>
       </section>
@@ -63,8 +63,8 @@ export default {
     ...mapGetters({
       products: "cartDetailProducts",
       totalPrice: "cartTotalPrice",
-      /* productsLoading: "cartProductsLoad",
-      productLoadingFailed: "cartProductsLoadFailed", */
+      productsLoading: "cartProductsLoad",
+      productLoadingFailed: "cartProductsLoadFailed",
     }),
   },
   components: { CartItem, PageLoader },
